@@ -40,7 +40,7 @@ h2 { text-align:center;}
 		    print '<p class = "error">Connection failed: '. error.'</p>';
 		    exit(1);
 	    }
-		 
+		// actor list:
 	    mysql_select_db("CS143", $db_connection);
 	    $error = mysql_error();
 	    if ($error != '')
@@ -51,16 +51,16 @@ h2 { text-align:center;}
 		print "<h3>Search result </h3>";
 		$wordlist = explode(' ', strtolower($search));
 		$length = count($wordlist);
-		$searchactor = 'select id, concat_ws(" ", first, last) as name, dob, sex from Actor where 1';
+		$searchActor = 'select id, concat_ws(" ", first, last) as name, dob, sex from Actor where 1';
 		
 		/*search for director can be add here;*/
 		
 		for ($i = 0; $i < $length; $i++)
 		{
-			$searchactor .= ' and ( lower(Actor.first) like "%' . $wordlist[$i] . '%" or lower(Actor.last) like "%' .$wordlist[$i]. '%" )';
+			$searchActor .= ' and ( lower(Actor.first) like "%' . $wordlist[$i] . '%" or lower(Actor.last) like "%' .$wordlist[$i]. '%" )';
 		}
-		$searchactor .=';';
-		$rs = mysql_query($searchactor, $db_connection);
+		$searchActor .=';';
+		$rs = mysql_query($searchActor, $db_connection);
 		$error = mysql_error();		
 		if ($error != '')
 		{
@@ -83,9 +83,35 @@ h2 { text-align:center;}
 			print '</tr>';
 		}
 		print '</table>';
-    	mysql_close($db_connection);
+
+
+		//movie list:
 		
-        
+		$searchMovie = 'select id, title, year from Movie 
+					where 1 ';
+		for ($i = 0; $i < $length; $i++){
+			$searchMovie .= ' and ( lower(title) like "%' . $wordlist[$i] . '%")';
+		}
+		$rs = mysql_query($searchMovie, $db_connection);
+		$error = mysql_error();		
+		if ($error != '')
+		{
+			 print '<p class = "error">Searching actor error: '.$error.'</p>';
+			 exit(1);
+		}
+		print "<h4>Movie: </h4>";
+		print '<table border = "1"><tr>';
+		print '<td>Title</td>';
+		print '<td>year</td>';
+		print '<tr>';
+		while($row = mysql_fetch_assoc($rs)){
+			echo '<tr>';
+			print '<td><a href = "./showMovieInfo.php?mid='.$row['id'].'">'.$row['title'].'</a></td>'; 
+			echo '<td>' . $row["year"] . '</td>';			
+			echo '</tr>';
+		}
+		print '</table>';
+    	mysql_close($db_connection);
     }
 ?>
 

@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Show movie information</title>
+<title>Show Movie Information</title>
 <style>
 h2 { text-align:center;}
 .requirement{color:red; font-size:x-small}
@@ -9,8 +9,7 @@ h2 { text-align:center;}
 
 <body>
 
-
-<p><h2>You can search information for Movie, Actor here!</h2></p>
+<br><p><h2>Actor Information Page</h2></p><br>
 <form method = "POST" action = "./search.php">
 <input type = "text" name = "search" size = 150px>
 <span class = "requirement"><?php print "$serror"; ?></span>
