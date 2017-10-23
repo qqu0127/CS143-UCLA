@@ -1,0 +1,10 @@
+1. addActorDirector.php
+Cannot parse the dob in some browser, appearing 0000-00-00.
+
+2. addComments.php
+Better the way how comment is adding.
+So far user can only add comment using movie id, which is too inconvenient. Proposed embed a small search engine here and allow adding using movie name.
+
+3. *.php
+Make it look pretty.
+Refine the font, layout, table and other appearance.
