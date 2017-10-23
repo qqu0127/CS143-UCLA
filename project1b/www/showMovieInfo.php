@@ -9,7 +9,14 @@ h1 { text-align:center;}
 
 <body>
 
-<br><p><h1>Movie Information page</h1></p><br>
+<br><p><h1>Movie Information Page</h1></p><br>
+
+<form method = "POST" action = "./search.php">
+<input type = "text" name = "search" size = 150px>
+<span class = "requirement"><?php print "$serror"; ?></span>
+</br></br>
+<input type = "submit" name = "submit" value = "Search!">
+
 
 <?php
 	//TODO:
@@ -84,14 +91,59 @@ h1 { text-align:center;}
 		$row = mysql_fetch_row($res);
 		print "Genre: $row[0]<br>"; 
 		//B: actors in the movie
+		# role | movie title
 		print '<h2>Actors in this Movie: </h2>';
-
+		$query = 'select id, first, last, role
+				from Actor as A, MovieActor as M
+				where A.id = M.aid 
+				and M.mid = ' . $mid . ';';
+		$error = mysql_error();
+	    if ($error != ''){
+		    print '<p class = "error">Searching movie failed: '. error.'</p>';
+		    exit(1);
+	    }
+		$res = mysql_query($query, $db_connection);
+		print '<table border = "1"><tr>';
+		print '<td>Name</td>';
+		print '<td>Role</td>';
+		print '</tr>';
+		while($row = mysql_fetch_assoc($res)){
+			print '<tr>';
+			print '<td><a href = "./showActorInfo.php?aid='.$row['id'].'">'.$row['first'].' '. $row['last'] . '</a></td>';
+			print '<td>' . $row['role'] . '</td>';
+			print '</tr>';
+		}
+		print '</table>';
 
 		//C: User Reviews:
 		print '<h2>User Reviews: </h2>';
-		
+		$query = 'select name, rating, time, comment
+					from Review where mid =' .$mid.';';
+		if ($error != ''){
+		    print '<p class = "error">Searching movie failed: '. error.'</p>';
+		    exit(1);
+	    }
+		$res = mysql_query($query, $db_connection);
+		print '<table border = "1"><tr>';
+		print '<td>Name</td>';
+		print '<td>Rating</td>';
+		print '<td>Time</td>';
+		print '<td>Comment</td>';
+		print '</tr>';
+		while($row = mysql_fetch_assoc($res)){
+			print '<tr>';
+			print '<td>' . $row['name'] .'</td>';
+			print '<td>' . $row['rating'].'</td>';
+			print '<td>' . $row['time'].'</td>';
+			print '<td>' . $row['comment'].'</td>';
 
+			print '</tr>';
+		}
+		print '</table>';
 	}
 ?>
+<br><br>
+<li><a href="addComments.php">Add Your Comments!</a></li>
+
 </body>
 </html>
