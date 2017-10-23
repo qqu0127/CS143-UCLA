@@ -13,7 +13,7 @@ h1 { text-align:center;}
 
 <?php
 	//TODO:
-	//78~84 part B, part C
+	//86~91 part B, part C
 
 	if($_SERVER["REQUEST_METHOD"] == "GET"){
 	    $db_connection = mysql_connect("localhost", "cs143", "");
