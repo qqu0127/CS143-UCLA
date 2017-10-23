@@ -2,8 +2,8 @@
 <head>
   <title> Add actor/director </title>
   <style type = "text/css">
-  .requirement{color:red; font-size:x-small}
-  .reminder{font-size:x-small}
+  .requirement{color:red; font-size:small}
+  .reminder{font-size:small}
   .error{color:red; font-size:x-large; font-weight:bold}
   </style> 
 </head>
@@ -64,7 +64,7 @@
 <body>
 <form method = "POST" action = "">
       <h2>Please add your actor/director here! </h2>
-	  <span class = "requirement">required information*</span>
+	  <span class = "requirement">required information*</span><br>
       <br>Profession<br>
 	  <select name = "profession">
 	  <option> Actor </option>
@@ -88,13 +88,13 @@
 	  <span class = "requirement">*<?php print "$gerror";?></span>
 	  </br></br>
 	  Date of Birth</br>
-	  <input type = "date" name = "dob">
+	  <input type = "date" name = "dob" maxlength = "8">
 	  <span class = "requirement">*<?php print "$berror";?></span>
 	  </br>
 	  <span class = "reminder">according to your browser, choose the date or enter like 19940608</span>
 	  </br></br>
 	  Date of Death</br>
-	  <input type = "date" name = "dod">
+	  <input type = "text" name = "dod" maxlength = "8">
 	  </br>
 	  <span class = "reminder">please leave here blank if this person is still alive</span>
 	  </br></br>
@@ -122,7 +122,7 @@
 		 $rs = mysql_query($query, $db_connection);
 		 $row = mysql_fetch_row($rs);
 		 $id = $row[0] + 1;
-         
+
 		 $query = "insert into $profession values($id, '$lastname', '$firstname', '$gender', $dob, $dod)";
 		 mysql_query($query, $db_connection);
 		 $error = mysql_error();
@@ -132,7 +132,7 @@
 			 exit(1);
 		 }
 		 
-		 print 'Successfully Add</br>';
+		 print 'Success!</br>';
 		 $query = "UPDATE MaxPersonID Set id= $id;";
 		 $rs = mysql_query($query, $db_connection);
 		 

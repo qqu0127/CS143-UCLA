@@ -2,7 +2,7 @@
 <head>
   <title> Add actor/director </title>
   <style type = "text/css">
-  .requirement{color:red; font-size:x-small}
+  .requirement{color:red; font-size:small}
   .error{color:red; font-size:x-large; font-weight:bold}
   </style> 
 </head>

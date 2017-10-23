@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title> Add Comments to Movie </title>
+  <title> Add Actor to Movie </title>
   <style type = "text/css">
   .requirement{color:red; font-size:small}
   .reminder{font-size:small}
@@ -10,24 +10,20 @@
 
 <body>
 <form method = "POST" action = "">
-	<h2>Please add the comments here! </h2>
+	<h2>Please type in the actor-movie relation here! </h2>
 	<span class = "requirement"> required information*</span><br>
 	<br>Movie id<br>
-	<input type = "text" name = "mid">
+	<input type = "number" name = "mid">
 	<span class = "requirement">*</span><br>
 
-	<br>Rating<br>
-	<input type = "number" name = "rating">
-	<span class = "requirement">*</span>
-	<br><span class = "reminder"> Any integer from 0 to 100<br></span>
+	<br>Actor id<br>
+	<input type = "number" name = "aid">
+	<span class = "requirement">*</span><br>
+	<br>role<br>
+	<input type = "text" name = "role">
+	<span class = "requirement">*</span><br>
 
-	<br>Comment<br>
-	<input type = "text" name = "comment">
-	<br><span class = "reminder"> Not required, but you are welcome to leave any comment!</span><br>
-	<br>Your Name<br>
-	<input type = "text" name = "userName">
 	<br><br>
-
 	<input type = "submit" name = "submit" value = "Add!">
 </body>
 </form>
@@ -36,16 +32,10 @@
 <?php
 	#required fields:
 	# mid, 
-	# at least one should be not null: rating, comment
+	# aid
+	# role
 	$error = 0;
-	$eMsg = "";
-	$comment = "";
-	$userName = "N/A";
-	$noComment = 0;
-
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
-		$timeStamp = date('Y-m-d G:i:s');
-		
 		if(!empty($_POST["mid"]))
 			$mid = $_POST["mid"];
 		else{
@@ -53,20 +43,21 @@
 			print 'Please specify the Movie id<br>';
 			exit(1);
 		}
-		
-		if(!empty($_POST["userName"]))
-			$userName = $_POST["userName"];
-
-		if(!empty($_POST["rating"]))
-			$rating = $_POST["rating"];
+		if(!empty($_POST["aid"]))
+			$aid = $_POST["aid"];
 		else{
 			$error = 1;
-			print 'Please specify the rating<br>';
+			print 'Please specify the actor id<br>';
 			exit(1);
 		}
-
-		if(!empty($_POST["comment"]))
-			$comment = $_POST["comment"];
+		
+		if(!empty($_POST["role"]))
+			$role = $_POST["role"];
+		else{
+			$error = 1;
+			print 'Please specify the role<br>';
+			exit(1);
+		}
 	}
 
 	if($error == 0 && $_SERVER["REQUEST_METHOD"] == "POST"){
@@ -77,8 +68,8 @@
 		$db_CS143 = mysql_select_db("CS143", $db);
 		if(!$db_CS143)
 			die("Unable to select database CS143 " . mysql_error());
-		$query = "insert into Review
-					values('$userName', '$timeStamp', $mid, $rating, '$comment')";
+		$query = "insert into MovieActor
+					values($mid, $aid, '$role')";
 		$res = mysql_query($query, $db);
 		mysql_close($db);
 		print 'Success!<br>';
