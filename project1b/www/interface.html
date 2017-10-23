@@ -1,0 +1,93 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>navigator page</title>
+<base target="iframe"/>
+<style type = "text/css">
+
+h2 {
+    text-align:center;
+}
+.page{
+    height: 620px;
+	width: 100%;
+	background: white;
+	overflow:hidden;
+}
+.left{
+    float: left;
+	height: 100%;
+	width:  17%;
+	overflow: hidden;
+    background: LightSteelBlue;
+}
+.right{
+    float: left;
+	height: 100%;
+	width: 83%;
+	overflow: hidden;
+}
+.rightframe
+{
+    float: left;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
+	scrolling: yes;
+	seamless: seamless;
+}
+
+</style>
+</head>
+<body>
+<div class = "page">
+    <div class = "left">
+        <h2>Navigator</h2>
+		<h4>Add Information</h4> 
+        <div>
+            <ul>
+                <li><a href="addActorDirector.php" >Add Actor/Director</a></li>
+            </ul>
+            <ul>
+                <li><a href="addMovie.php" >Add Movie</a></li>
+            </ul>
+            <ul>
+                <li><a href="addComments.php" >Add Comments</a></li>
+            </ul>
+            <ul>
+                <li><a href="addActor2Movie.php" >Add Movie-Actor Relations </a></li>
+            </ul>
+            <ul>
+                <li><a href="addDirector2Movie.php" >Add Moive-Director Relations </a></li>
+            </ul>
+        </div>
+        <h4>Browsering Content</h4>
+        <div>
+            <ul>
+                <li><a href="showActorInfo.php">Show Actor Info</a></li>
+            </ul>
+            <ul>
+                <li><a href="showMovieInfo.php">Show Movie Info</a></li>
+            </ul>
+        </div>
+        <h4>Search</h4>
+        <div>
+            <ul>
+                <li><a href="search.php" >Search Actor/Movie</a></li>
+            </ul>
+        </div>  
+		<h4>Go back to welcome page</h4>
+        <div>
+            <ul>
+                <li><a href="welcome.html" >Welcome page</a></li>
+            </ul>
+        </div>			
+    </div>
+	
+    <div class = "right">
+	<iframe class = "rightframe" name="iframe" src = "welcome.html"></iframe>
+    </div>	
+	
+</div>
+</body>
+</html>
