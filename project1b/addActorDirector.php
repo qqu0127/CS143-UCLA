@@ -64,8 +64,8 @@
 <body>
 <form method = "POST" action = "">
       <h2>Please add your actor/director here! </h2>
-	  <span class = "requirement">required information*</br></span>
-      Profession</br>
+	  <span class = "requirement">required information*</span>
+      <br>Profession<br>
 	  <select name = "profession">
 	  <option> Actor </option>
 	  <option> Director </option>
