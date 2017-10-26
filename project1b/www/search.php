@@ -11,21 +11,21 @@ h2 { text-align:center;}
 
 <?php
      $rerror = 0;
-     if ($_SERVER["REQUEST_METHOD"] == "POST")
+     if ($_SERVER["REQUEST_METHOD"] == "GET")
 	 {
-		 if (!empty($_POST["search"])){
-			 $search = $_POST["search"];
+		 if (!empty($_GET["search"])){
+			 $search = $_GET["search"];
 			 $serror = "";		
 		 }
 		 else{
-			 $serror = "Please enter the search condition";
+			 //$serror = "Please enter the search condition";
 			 $rerror = 1;
 	     }
 	 }
 ?>
 
 <p><h2>You can search information for Movie, Actor here!</h2></p>
-<form method = "POST" action = "">
+<form method = "GET" action = "">
 <input type = "text" name = "search" size = 150px>
 <span class = "requirement"><?php print "$serror"; ?></span>
 </br></br>
@@ -33,7 +33,7 @@ h2 { text-align:center;}
 </form>
  
 <?php
-     if($rerror == 0 and $_SERVER["REQUEST_METHOD"] == "POST"){
+     if($rerror == 0 and $_SERVER["REQUEST_METHOD"] == "GET"){
 	    $db_connection = mysql_connect("localhost", "cs143", "");
 	    $error = mysql_error();
 	    if ($error != ''){

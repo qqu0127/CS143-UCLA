@@ -51,8 +51,9 @@
 	<br><br>
 
 	<input type = "submit" name = "submit" value = "Add!">
-</body>
 </form>
+</body>
+
 
 
 <?php
