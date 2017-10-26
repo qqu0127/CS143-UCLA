@@ -2,8 +2,8 @@
 <head>
   <title> Add actor/director </title>
   <style type = "text/css">
-  .requirement{color:red; font-size:small}
-  .reminder{font-size:small}
+  .requirement{color:red; font-size:x-small}
+  .reminder{font-size:x-small}
   .error{color:red; font-size:x-large; font-weight:bold}
   </style> 
 </head>
@@ -51,7 +51,7 @@
 			 $berror = "Date of birth should not be blank";
 			 $rerror = 1;
 		 }
-		 if (!empty($_POST["dod"])){
+		 if (!empty($_POST["dod"])){			 
 		     $dod = $_POST["dod"];
 		 }
 		 else{
@@ -64,8 +64,8 @@
 <body>
 <form method = "POST" action = "">
       <h2>Please add your actor/director here! </h2>
-	  <span class = "requirement">required information*</span><br>
-      <br>Profession<br>
+	  <span class = "requirement">required information*</br></span>
+      Profession</br>
 	  <select name = "profession">
 	  <option> Actor </option>
 	  <option> Director </option>
@@ -88,15 +88,15 @@
 	  <span class = "requirement">*<?php print "$gerror";?></span>
 	  </br></br>
 	  Date of Birth</br>
-	  <input type = "date" name = "dob" maxlength = "8">
+	  <input type = "text" name = "dob">
 	  <span class = "requirement">*<?php print "$berror";?></span>
 	  </br>
-	  <span class = "reminder">according to your browser, choose the date or enter like 19940608</span>
+	  <span class = "reminder">please enter date like 1994-06-08</span>
 	  </br></br>
 	  Date of Death</br>
-	  <input type = "text" name = "dod" maxlength = "8">
+	  <input type = "text" name = "dod">
 	  </br>
-	  <span class = "reminder">please leave here blank if this person is still alive</span>
+	  <span class = "reminder">please enter date like 1994-06-08 and leave here blank if this person is still alive</span>
 	  </br></br>
 	  <input type="submit" name="submit" value="Add!">
 </form>
@@ -122,8 +122,13 @@
 		 $rs = mysql_query($query, $db_connection);
 		 $row = mysql_fetch_row($rs);
 		 $id = $row[0] + 1;
-
-		 $query = "insert into $profession values($id, '$lastname', '$firstname', '$gender', $dob, $dod)";
+         
+		 if ($dod == "NULL"){
+			  $query = "insert into $profession values($id, '$lastname', '$firstname', '$gender', '$dob', NULL);";
+		 }
+	     else{
+		      $query = "insert into $profession values($id, '$lastname', '$firstname', '$gender', '$dob', '$dod');";
+		 }
 		 mysql_query($query, $db_connection);
 		 $error = mysql_error();
 		 if ($error != '')
@@ -132,9 +137,9 @@
 			 exit(1);
 		 }
 		 
-		 print 'Success!</br>';
+		 print 'Successfully Add</br>';
 		 $query = "UPDATE MaxPersonID Set id= $id;";
-		 $rs = mysql_query($query, $db_connection);
+		 mysql_query($query, $db_connection);
 		 
 		 /* the code are used to do test
 		 $query = "select * from $profession where id = $id";
@@ -146,7 +151,6 @@
                print "</br>";				
          }*/
 		 
-		 mysql_query($query,$db_connection);
          mysql_close($db_connection);  		 
 	 }
 ?>
