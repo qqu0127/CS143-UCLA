@@ -24,12 +24,7 @@
 			while($row = mysql_fetch_assoc($res)){
 				echo '<option value=' . $row['id'] .'>'.$row['title'].'('.$row['year'].')</option>';
 			}
-
-
 		?>
-		<option value=5>100 Girls (2000)</option>
-		<option value=6>100 Kilos (2001)</option>
-		<option value=8>13th Child (2002)</option>
 	</select>
 	<span class = "requirement">*</span><br>
 
@@ -97,17 +92,10 @@
 	}
 
 	if($error == 0 && $_SERVER["REQUEST_METHOD"] == "POST"){
-		$db = mysql_connect("localhost", "cs143", ""); 
-		if(!$db)
-			die("Unable to connect database " . mysql_error());
-		//select database CS143
-		$db_CS143 = mysql_select_db("CS143", $db);
-		if(!$db_CS143)
-			die("Unable to select database CS143 " . mysql_error());
 		$query = "insert into Review
 					values('$userName', '$timeStamp', $mid, $rating, '$comment')";
-		$res = mysql_query($query, $db);
-		mysql_close($db);
+		$res = mysql_query($query, $db_connection);
+		mysql_close($db_connection);
 		print 'Success!<br>';
 	}
 ?>

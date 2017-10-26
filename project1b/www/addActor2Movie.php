@@ -12,12 +12,30 @@
 <form method = "POST" action = "">
 	<h2>Please type in the actor-movie relation here! </h2>
 	<span class = "requirement"> required information*</span><br>
-	<br>Movie id<br>
-	<input type = "number" name = "mid">
+	<br>Movie<br>
+	<select class="form-control" name = "mid">
+		<?php
+			$db_connection = mysql_connect("localhost", "cs143", "");
+			mysql_select_db("CS143", $db_connection);
+			$query = "select id, title, year from Movie order by title;";
+			$res = mysql_query($query, $db_connection);
+			while($row = mysql_fetch_assoc($res)){
+				echo '<option value=' . $row['id'] .'>'.$row['title'].'('.$row['year'].')</option>';
+			}
+		?>
+	</select>
 	<span class = "requirement">*</span><br>
 
-	<br>Actor id<br>
-	<input type = "number" name = "aid">
+	<br>Actor<br>
+	<select class="form-control" name = "aid">
+		<?php
+			$query = "select id, first, last, dob from Actor order by first;";
+			$res = mysql_query($query, $db_connection);
+			while($row = mysql_fetch_assoc($res)){
+				echo '<option value=' . $row['id'] .'>'.$row['first'] . ' ' . $row['last'].' ('.$row['dob'].')</option>';
+			}
+		?>
+	</select>
 	<span class = "requirement">*</span><br>
 	<br>role<br>
 	<input type = "text" name = "role">
@@ -61,16 +79,9 @@
 	}
 
 	if($error == 0 && $_SERVER["REQUEST_METHOD"] == "POST"){
-		$db = mysql_connect("localhost", "cs143", ""); 
-		if(!$db)
-			die("Unable to connect database " . mysql_error());
-		//select database CS143
-		$db_CS143 = mysql_select_db("CS143", $db);
-		if(!$db_CS143)
-			die("Unable to select database CS143 " . mysql_error());
 		$query = "insert into MovieActor
 					values($mid, $aid, '$role')";
-		$res = mysql_query($query, $db);
+		$res = mysql_query($query, $ddb_connectionb);
 		mysql_close($db);
 		print 'Success!<br>';
 	}
