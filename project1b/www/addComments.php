@@ -9,17 +9,44 @@
 </head>
 
 <body>
-<form method = "POST" action = "">
+<form method = "POST" action = "addComments.php">
 	<h2>Please add the comments here! </h2>
 	<span class = "requirement"> required information*</span><br>
-	<br>Movie id<br>
-	<input type = "text" name = "mid">
+	
+	<br>Movie<br>
+	<select class="form-control" name = "mid">
+
+		<?php
+			$db_connection = mysql_connect("localhost", "cs143", "");
+			mysql_select_db("CS143", $db_connection);
+			$query = "select id, title, year from Movie order by title;";
+			$res = mysql_query($query, $db_connection);
+			while($row = mysql_fetch_assoc($res)){
+				echo '<option value=' . $row['id'] .'>'.$row['title'].'('.$row['year'].')</option>';
+			}
+
+
+		?>
+		<option value=5>100 Girls (2000)</option>
+		<option value=6>100 Kilos (2001)</option>
+		<option value=8>13th Child (2002)</option>
+	</select>
 	<span class = "requirement">*</span><br>
 
 	<br>Rating<br>
-	<input type = "number" name = "rating">
-	<span class = "requirement">*</span>
-	<br><span class = "reminder"> Any integer from 0 to 100<br></span>
+	<select name = "rating">
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+		<option value="5">5</option>
+		<option value="6">6</option>
+		<option value="7">7</option>
+		<option value="8">8</option>
+		<option value="9">9</option>
+		<option value="10">10</option>
+	</select>
+	<span class = "requirement">*</span><br>
 
 	<br>Comment<br>
 	<input type = "text" name = "comment">
