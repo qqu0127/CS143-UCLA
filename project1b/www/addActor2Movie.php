@@ -13,15 +13,15 @@
 	<h2>Please type in the actor-movie relation here! </h2>
 	<span class = "requirement"> required information*</span><br>
 	<br>Movie<br>
-	<select class="form-control" name = "mid">
+	<select name = "mid">
 		<?php
 			$db_connection = mysql_connect("localhost", "cs143", "");
 			mysql_select_db("CS143", $db_connection);
 			$query = "select id, title, year from Movie order by title;";
 			$res = mysql_query($query, $db_connection);
-			while($row = mysql_fetch_assoc($res)){
-				echo '<option value=' . $row['id'] .'>'.$row['title'].'('.$row['year'].')</option>';
-			}
+			while($row = mysql_fetch_row($res))
+				echo '<option value="',$row[0],'">',$row[1],' (',$row[2],')</option>';
+			mysql_free_result($res);
 		?>
 	</select>
 	<span class = "requirement">*</span><br>
@@ -29,13 +29,13 @@
 
 
 	<br>Actor<br>
-	<select class="form-control" name = "aid">
+	<select name = "aid">
 		<?php
 			$query = "select id, first, last, dob from Actor order by first;";
 			$res = mysql_query($query, $db_connection);
-			while($row = mysql_fetch_assoc($res)){
-				echo '<option value=' . $row['id'] .'>'.$row['first'] . ' ' . $row['last'].' ('.$row['dob'].')</option>';
-			}
+			while($row = mysql_fetch_row($res))
+				echo '<option value="',$row[0],'">',$row[1],' ',$row[2],' (', $row[3], ')</option>';
+			mysql_free_result($res);
 		?>
 	</select>
 	<span class = "requirement">*</span><br>
@@ -54,39 +54,20 @@
 	# mid, 
 	# aid
 	# role
-	$error = 0;
-	if($_SERVER["REQUEST_METHOD"] == "POST"){
-		if(!empty($_POST["mid"]))
-			$mid = $_POST["mid"];
-		else{
-			$error = 1;
-			print 'Please specify the Movie id<br>';
-			exit(1);
-		}
-		if(!empty($_POST["aid"]))
-			$aid = $_POST["aid"];
-		else{
-			$error = 1;
-			print 'Please specify the actor id<br>';
-			exit(1);
-		}
-		
-		if(!empty($_POST["role"]))
-			$role = $_POST["role"];
-		else{
-			$error = 1;
-			print 'Please specify the role<br>';
-			exit(1);
-		}
-	}
+	$mid = $_POST["mid"];
+	$aid = $_POST["aid"];
+	$role = $_POST["role"];
 
-	if($error == 0 && $_SERVER["REQUEST_METHOD"] == "POST"){
-		$query = "insert into MovieActor
-					values($mid, $aid, '$role')";
-		$res = mysql_query($query, $ddb_connectionb);
-		mysql_close($db);
-		print 'Success!<br>';
+	if($mid != "" && $aid != ""){
+		$query = "insert into MovieActor values($mid, $aid, '$role');";
+		$res = mysql_query($query, $db_connection) or exit(mysql_error());
+		echo "Success!";
 	}
+	else{
+		echo "Error";
+	}
+	mysql_close($db);
+
 ?>
 
 </html>

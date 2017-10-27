@@ -74,27 +74,24 @@
 	  </select>
 	  </br></br>
 	  Genre</br>
-	  <select name = "genre">
-	  <option> Action </option>
-	  <option> Adult </option>
-	  <option> Adventure </option>
-	  <option> Animation </option>
-	  <option> Comedy </option>
-	  <option> Crime </option>
-	  <option> Documentary </option>
-	  <option> Drama </option>
-	  <option> Family </option>
-	  <option> Fantasy </option>
-	  <option> Horror </option>
-	  <option> Musical </option>
-	  <option> Mystery </option>
-	  <option> Romance </option>
-	  <option> Sci-Fi </option>
-	  <option> Short </option>
-	  <option> Thriller </option>
-	  <option> War </option>
-	  <option> Western </option>
-	  </select>
+	  <input type="checkbox" name="genre[]" value="Action">Action</input>
+      <input type="checkbox" name="genre[]" value="Adult">Adult</input>
+	  <input type="checkbox" name="genre[]" value="Adventure">Adventure </input>
+	  <input type="checkbox" name="genre[]" value="Animation">Animation </input>
+	  <input type="checkbox" name="genre[]" value="Comedy">Comedy </input>
+	  <input type="checkbox" name="genre[]" value="Crime">Crime </input>
+	  <input type="checkbox" name="genre[]" value="Documentary">Documentary </input>
+	  <input type="checkbox" name="genre[]" value="Drama">Drama </input>
+	  <input type="checkbox" name="genre[]" value="Family">Family </input>
+	  <input type="checkbox" name="genre[]" value="Fantasy">Fantasy </input>
+	  <input type="checkbox" name="genre[]" value="Horror">Horror </input>
+	  <input type="checkbox" name="genre[]" value="Musical">Musical </input>
+	  <input type="checkbox" name="genre[]" value="Romance">Romance </input>
+	  <input type="checkbox" name="genre[]" value="Sci-Fi">Sci-Fi </input>
+	  <input type="checkbox" name="genre[]" value="Short">Short </input>
+	  <input type="checkbox" name="genre[]" value="Thriller">Thriller </input>	  
+	  <input type="checkbox" name="genre[]" value="War">War </input>
+	  <input type="checkbox" name="genre[]" value="Western">Western </input>
 	  <span class = "requirement">*<?php print "$gerror"; ?></span>
 	  </br></br>
 	  <input type="submit" name="submit" value="Add!">
@@ -131,13 +128,11 @@
 			 exit(1);
 		 }
 		 
-		 $query = "insert into MovieGenre values($id, '$genre')";
-		 mysql_query($query, $db_connection);
-		 $error = mysql_error();
-		 if ($error != '')
-		 {
-			 print '<p class = "error">Adding person error: '.$error.'</p>';
-			 exit(1);
+
+
+		 for($i = 0; $i < count($genre); $i++){
+		 	$query  = "insert into MovieGenre values($id, '$genre[$i]')";
+		 	$res = mysql_query($query, $db_connection) or exit(mysql_error());
 		 }
 		 
 		 print 'Successfully Add</br>';

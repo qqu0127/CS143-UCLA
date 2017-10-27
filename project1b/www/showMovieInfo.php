@@ -117,6 +117,14 @@ h1 { text-align:center;}
 
 		//C: User Reviews:
 		print '<h2>User Reviews: </h2>';
+		$query = 'select avg(rating) as score, count(rating) as num from Review where mid = ' .$mid.';';
+		$res = mysql_query($query, $db_connection);	
+		while($row = mysql_fetch_assoc($res)){
+			print 'Average score for this movie is '.$row["score"] . ' based on '. $row["num"] .' reviews.';
+			print '<br><br>';
+		}
+		
+
 		$query = 'select name, rating, time, comment
 					from Review where mid =' .$mid.';';
 		if ($error != ''){
