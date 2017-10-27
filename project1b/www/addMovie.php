@@ -2,7 +2,7 @@
 <head>
   <title> Add actor/director </title>
   <style type = "text/css">
-  .requirement{color:red; font-size:small}
+  .requirement{color:red; font-size:x-small}
   .error{color:red; font-size:x-large; font-weight:bold}
   </style> 
 </head>
@@ -73,26 +73,27 @@
 	  <option> surrendere </option>
 	  </select>
 	  </br></br>
-	  Genre</br>
-	  <input type="checkbox" name="genre[]" value="Action">Action</input>
-      <input type="checkbox" name="genre[]" value="Adult">Adult</input>
-	  <input type="checkbox" name="genre[]" value="Adventure">Adventure </input>
-	  <input type="checkbox" name="genre[]" value="Animation">Animation </input>
-	  <input type="checkbox" name="genre[]" value="Comedy">Comedy </input>
-	  <input type="checkbox" name="genre[]" value="Crime">Crime </input>
-	  <input type="checkbox" name="genre[]" value="Documentary">Documentary </input>
-	  <input type="checkbox" name="genre[]" value="Drama">Drama </input>
-	  <input type="checkbox" name="genre[]" value="Family">Family </input>
-	  <input type="checkbox" name="genre[]" value="Fantasy">Fantasy </input>
-	  <input type="checkbox" name="genre[]" value="Horror">Horror </input>
-	  <input type="checkbox" name="genre[]" value="Musical">Musical </input>
-	  <input type="checkbox" name="genre[]" value="Romance">Romance </input>
-	  <input type="checkbox" name="genre[]" value="Sci-Fi">Sci-Fi </input>
-	  <input type="checkbox" name="genre[]" value="Short">Short </input>
-	  <input type="checkbox" name="genre[]" value="Thriller">Thriller </input>	  
-	  <input type="checkbox" name="genre[]" value="War">War </input>
-	  <input type="checkbox" name="genre[]" value="Western">Western </input>
-	  <span class = "requirement">*<?php print "$gerror"; ?></span>
+	  Genre
+	  <span class = "requirement">*<?php print "$gerror </br>"; ?></span>
+	  <input type = "checkbox" name = "genre[]" value =  "Action"> Action 
+	  <input type = "checkbox" name = "genre[]" value =  "Adult"> Adult
+	  <input type = "checkbox" name = "genre[]" value =  "Adventure"> Adventure 
+	  <input type = "checkbox" name = "genre[]" value =  "Animation"> Animation 
+      <input type = "checkbox" name = "genre[]" value =  "Comedy"> Comedy 
+      <input type = "checkbox" name = "genre[]" value =  "Crime"> Crime 
+      <input type = "checkbox" name = "genre[]" value =  "Documentary"> Documentary 
+      <input type = "checkbox" name = "genre[]" value =  "Drama"> Drama 
+	  <input type = "checkbox" name = "genre[]" value =  "Family"> Family 
+	  <input type = "checkbox" name = "genre[]" value =  "Fantasy"> Fantasy 
+	  <input type = "checkbox" name = "genre[]" value =  "Horror"> Horror 
+	  <input type = "checkbox" name = "genre[]" value =  "Musical"> Musical 
+      <input type = "checkbox" name = "genre[]" value =  "Mystery"> Mystery 
+      <input type = "checkbox" name = "genre[]" value =  "Romance"> Romance 
+      <input type = "checkbox" name = "genre[]" value =  "Sci-Fi"> Sci-Fi 
+      <input type = "checkbox" name = "genre[]" value =  "Short"> Short 
+	  <input type = "checkbox" name = "genre[]" value =  "Thriller"> Thriller 
+      <input type = "checkbox" name = "genre[]" value =  "War"> War 
+      <input type = "checkbox" name = "genre[]" value =  "Western"> Western 
 	  </br></br>
 	  <input type="submit" name="submit" value="Add!">
 </form>
@@ -128,18 +129,28 @@
 			 exit(1);
 		 }
 		 
-
-
-		 for($i = 0; $i < count($genre); $i++){
-		 	$query  = "insert into MovieGenre values($id, '$genre[$i]')";
-		 	$res = mysql_query($query, $db_connection) or exit(mysql_error());
+		 foreach ($genre as $i)
+		 {
+			 $query = "insert into MovieGenre values($id, '$i')";
+		     mysql_query($query, $db_connection);
+		     $error = mysql_error();
+		     if ($error != '')
+		     {
+			     print '<p class = "error">Adding person error: '.$error.'</p>';
+				 print 'here'.$query.'</br>';
+			     exit(1);
+				 
+				 $query = "delete from Movie where id = $id";
+				 mysql_query($query, $db_connection);
+		     }
 		 }
 		 
 		 print 'Successfully Add</br>';
 		 $query = "UPDATE MaxMovieID Set id= $id;";
-		 $rs = mysql_query($query, $db_connection);
+		 mysql_query($query, $db_connection);
 		 
-		 /* the code are used to do test*/
+		 /* this code are just used to do test*/
+		 /*
 		 $query = "select * from Movie where id = $id";
 		 $rs = mysql_query($query, $db_connection);
 		 while ($row = mysql_fetch_row($rs)){
@@ -148,8 +159,16 @@
                 }
                print "</br>";				
          }
+		 $query = "select * from MovieGenre where mid = $id";
+		 $rs = mysql_query($query, $db_connection);
+		 while ($row = mysql_fetch_row($rs)){
+               for ($i = 0; $i < 5; $i++){
+                 print "$row[$i] ";
+                }
+               print "</br>";				
+         }
+		 */
 		 
-		 mysql_query($query,$db_connection);
          mysql_close($db_connection);  		 
 	 }
 ?>
