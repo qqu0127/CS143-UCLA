@@ -57,14 +57,11 @@
 	$mid = $_POST["mid"];
 	$aid = $_POST["aid"];
 	$role = $_POST["role"];
-
-	if($mid != "" && $aid != ""){
+	if($rerror == 0 and $_SERVER["REQUEST_METHOD"] == "POST"){
 		$query = "insert into MovieActor values($mid, $aid, '$role');";
 		$res = mysql_query($query, $db_connection) or exit(mysql_error());
 		echo "Success!";
-	}
-	else{
-		echo "Error";
+		
 	}
 	mysql_close($db);
 
