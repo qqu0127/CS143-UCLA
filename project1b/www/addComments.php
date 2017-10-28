@@ -7,23 +7,39 @@
   .error{color:red; font-size:x-large; font-weight:bold}
   </style> 
 </head>
+<h2>Please add the comments here! </h2>
 
 <body>
-<form method = "POST" action = "addComments.php">
-	<h2>Please add the comments here! </h2>
-	<span class = "requirement"> required information*</span><br>
-	
-	<br>Movie<br>
-	<select class="form-control" name = "mid">
-
-		<?php
+<form method = "GET" action = ""><br>
+	<span class = "reminder">Don't know the exact name of the movie?</span>
+	<br>
+	<span class = "reminder">No worry, just type in what you know, and select in the box below!</span>
+	<br>
+	<br>Search Movie:<br>
+	<input type = "text" name = "searchMovie">
+	<input type = "submit" name = "submitMovie" value = "show results">
+	<?php
+		$movie = $_GET["searchMovie"];
+		if($movie != ""){
 			$db_connection = mysql_connect("localhost", "cs143", "");
+			
 			mysql_select_db("CS143", $db_connection);
-			$query = "select id, title, year from Movie order by title;";
-			$res = mysql_query($query, $db_connection);
-			while($row = mysql_fetch_assoc($res)){
+			$queryMovie = "select id, title, year from Movie where title like \"%$movie%\" order by title;";
+			$resMovie = mysql_query($queryMovie, $db_connection);
+		}
+	?>
+</form>
+
+
+
+<form method = "POST" action = "addComments.php">
+	
+	<span class = "requirement"> required information*</span><br>
+	<br>Choose Movie<br>
+	<select class="form-control" name = "mid">
+		<?php
+			while($row = mysql_fetch_assoc($resMovie))
 				echo '<option value=' . $row['id'] .'>'.$row['title'].'('.$row['year'].')</option>';
-			}
 		?>
 	</select>
 	<span class = "requirement">*</span><br>
@@ -53,8 +69,6 @@
 	<input type = "submit" name = "submit" value = "Add!">
 </form>
 </body>
-
-
 
 <?php
 	#required fields:
