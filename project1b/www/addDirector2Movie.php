@@ -7,21 +7,43 @@
   .error{color:red; font-size:x-large; font-weight:bold}
   </style> 
 </head>
-
 <body>
+<h2>Please type in the Director-Movie relation! </h2>
+	
+
+<form method = "GET" action = ""><br>
+	<span class = "reminder">Don't know the exact name of the movie or director? </span>
+	<br>
+	<span class = "reminder">No worry, just type in what you know, and select in the box below!</span>
+	<br>
+	<br>Search Movie:<br>
+	<input type = "text" name = "searchMovie"><br>
+	<br>Search Actor:<br>
+	<input type = "text" name = "searchDirector">
+	<input type = "submit" name = "submitMovie" value = "show results">
+	<?php
+		$movie = $_GET["searchMovie"];
+		$director = $_GET["searchDirector"];
+		if($movie != ""){
+			$db_connection = mysql_connect("localhost", "cs143", "");
+			
+			mysql_select_db("CS143", $db_connection);
+			$queryMovie = "select id, title, year from Movie where title like \"%$movie%\" order by title;";
+			$queryDirector = "select id, first, last, dob from Director where first like \"%$director%\" or last like \"%$director%\" order by first;";
+			$resMovie = mysql_query($queryMovie, $db_connection);
+			$resDirector = mysql_query($queryDirector, $db_connection);
+		}
+	?>
+</form>
+
 <form method = "POST" action = "">
-	<h2> Please type in the Director-Movie relation! </h2>
 	<span class = "requirement"> required information*</span><br>
 	<br>Movie<br>
 	<select class="form-control" name = "mid">
 		<?php
-			$db_connection = mysql_connect("localhost", "cs143", "");
-			mysql_select_db("CS143", $db_connection);
-			$query = "select id, title, year from Movie order by title;";
-			$res = mysql_query($query, $db_connection);
-			while($row = mysql_fetch_assoc($res)){
+			while($row = mysql_fetch_assoc($resMovie))
 				echo '<option value=' . $row['id'] .'>'.$row['title'].'('.$row['year'].')</option>';
-			}
+			mysql_free_result($resMovie);
 		?>
 	</select>
 	<span class = "requirement">*</span><br>
@@ -29,11 +51,9 @@
 	<br>Director<br>
 	<select class="form-control" name = "did">
 		<?php
-			$query = "select id, first, last, dob from Director order by first;";
-			$res = mysql_query($query, $db_connection);
-			while($row = mysql_fetch_assoc($res)){
+			while($row = mysql_fetch_assoc($resDirector))
 				echo '<option value=' . $row['id'] .'>'.$row['first'].' ' . $row['last'] . ' ('.$row['dob'].')</option>';
-			}
+			mysql_free_result($resDirector);
 		?>
 	</select>
 	<span class = "requirement">*</span><br>
