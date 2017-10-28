@@ -2,7 +2,7 @@
 <head>
 <title>search movie or person here</title>
 <style>
-h2 { text-align:center;}
+h1 { text-align:center;}
 .requirement{color:red; font-size:x-small}
 </style>
 </head>
@@ -23,10 +23,11 @@ h2 { text-align:center;}
 	     }
 	 }
 ?>
-
-<p><h2>You can search information for Movie, Actor here!</h2></p>
+<br>
+<p><h1>You can search information for Movie, Actor here!</h1></p>
+<br>
 <form method = "GET" action = "">
-<input type = "text" name = "search" size = 150px>
+<input type = "text" name = "search" size = 150px placeholder="Search...">
 <span class = "requirement"><?php print "$serror"; ?></span>
 </br></br>
 <input type = "submit" name = "submit" value = "Search!">
@@ -37,7 +38,7 @@ h2 { text-align:center;}
 	    $db_connection = mysql_connect("localhost", "cs143", "");
 	    $error = mysql_error();
 	    if ($error != ''){
-		    print '<p class = "error">Connection failed: '. error.'</p>';
+		    print '<p class = "error">Connection failed: '. $error.'</p>';
 		    exit(1);
 	    }
 		// actor list:

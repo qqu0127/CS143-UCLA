@@ -19,14 +19,11 @@ h1 { text-align:center;}
 
 
 <?php
-	//TODO:
-	//86~91 part B, part C
-
 	if($_SERVER["REQUEST_METHOD"] == "GET"){
 	    $db_connection = mysql_connect("localhost", "cs143", "");
 	    $error = mysql_error();
 	    if ($error != ''){
-		    print '<p class = "error">Connection failed: '. error.'</p>';
+		    print '<p class = "error">Connection failed: '. $error.'</p>';
 		    exit(1);
 	    }
 		 
@@ -89,7 +86,12 @@ h1 { text-align:center;}
 	    }
 		$res = mysql_query($query, $db_connection);
 		$row = mysql_fetch_row($res);
-		print "Genre: $row[0]<br>"; 
+		print "Genre: $row[0]";
+		while($row = mysql_fetch_row($res)){
+			print ", $row[0]";
+		}
+		print "<br>";
+		
 		//B: actors in the movie
 		# role | movie title
 		print '<h2>Actors in this Movie: </h2>';
