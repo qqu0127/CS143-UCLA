@@ -24,12 +24,12 @@
 	<?php
 		$movie = $_GET["searchMovie"];
 		$director = $_GET["searchDirector"];
-		if($movie != ""){
+		if($movie != "" && $director != ""){
 			$db_connection = mysql_connect("localhost", "cs143", "");
 			
 			mysql_select_db("CS143", $db_connection);
 			$queryMovie = "select id, title, year from Movie where title like \"%$movie%\" order by title;";
-			$queryDirector = "select id, first, last, dob from Director where first like \"%$director%\" or last like \"%$director%\" order by first;";
+			$queryDirector = "select id, first, last, dob from Director where first like \"$director%\" or last like \"$director%\" order by first;";
 			$resMovie = mysql_query($queryMovie, $db_connection);
 			$resDirector = mysql_query($queryDirector, $db_connection);
 		}
