@@ -123,12 +123,23 @@
 		 $row = mysql_fetch_row($rs);
 		 $id = $row[0] + 1;
          
-		 if ($dod == "NULL"){
-			  $query = "insert into $profession values($id, '$lastname', '$firstname', '$gender', '$dob', NULL);";
+		 if ($profession == 'Actor'){
+			if ($dod == "NULL"){
+				$query = "insert into $profession values($id, '$lastname', '$firstname', '$gender', '$dob', NULL);";
+			}
+			else{
+				$query = "insert into $profession values($id, '$lastname', '$firstname', '$gender', '$dob', '$dod');";
+			}
 		 }
-	     else{
-		      $query = "insert into $profession values($id, '$lastname', '$firstname', '$gender', '$dob', '$dod');";
+		 else{
+			if ($dod == "NULL"){
+				$query = "insert into $profession values($id, '$lastname', '$firstname', '$dob', NULL);";
+			}
+			else{
+				$query = "insert into $profession values($id, '$lastname', '$firstname', '$dob', '$dod');";
+			}
 		 }
+		 
 		 mysql_query($query, $db_connection);
 		 $error = mysql_error();
 		 if ($error != '')
@@ -141,7 +152,8 @@
 		 $query = "UPDATE MaxPersonID Set id= $id;";
 		 mysql_query($query, $db_connection);
 		 
-		 /* the code are used to do test
+		 /*the code are used to do test*/
+		 /*
 		 $query = "select * from $profession where id = $id";
 		 $rs = mysql_query($query, $db_connection);
 		 while ($row = mysql_fetch_row($rs)){
