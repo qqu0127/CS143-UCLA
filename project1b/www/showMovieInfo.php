@@ -8,16 +8,15 @@ h1 { text-align:center;}
 </head>
 
 <body>
-
 <br><p><h1>Movie Information Page</h1></p><br>
 
-<form method = "POST" action = "./search.php">
+<form method = "GET" action = "./search.php">
 <input type = "text" name = "search" size = 150px>
 <span class = "requirement"><?php print "$serror"; ?></span>
 </br></br>
 <input type = "submit" name = "submit" value = "Search!">
 
-
+</form>
 <?php
 	if($_SERVER["REQUEST_METHOD"] == "GET"){
 	    $db_connection = mysql_connect("localhost", "cs143", "");
