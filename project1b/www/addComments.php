@@ -83,13 +83,13 @@
 	if($_SERVER["REQUEST_METHOD"] == "POST"){
 		$timeStamp = date('Y-m-d G:i:s');
 		
-		if(!empty($_POST["mid"]))
+		//if(!empty($_GET["mid"]))
 			$mid = $_POST["mid"];
-		else{
-			$error = 1;
-			print 'Please specify the Movie id<br>';
-			exit(1);
-		}
+		//else{
+		//	$error = 1;
+		//	print 'Please specify the Movie id<br>';
+		//	exit(1);
+		//}
 		
 		if(!empty($_POST["userName"]))
 			$userName = $_POST["userName"];
@@ -108,8 +108,11 @@
 
 	if($error == 0 && $_SERVER["REQUEST_METHOD"] == "POST"){
 		$query = "insert into Review
-					values('$userName', '$timeStamp', $mid, $rating, '$comment')";
-		$res = mysql_query($query, $db_connection);
+					values(\"$userName\", \"$timeStamp\", $mid, $rating, \"$comment\");";
+		$db_connection = mysql_connect("localhost", "cs143", "");
+		mysql_select_db("CS143", $db_connection);
+		print $query;
+		$res = mysql_query($query, $db_connection) or print 'Fail<br>';
 		mysql_close($db_connection);
 		print 'Success!<br>';
 	}
