@@ -46,6 +46,25 @@ object CS143Utils {
     bytes.toByteArray
   }
 
+  /*
+  * This method get Bytes from Row
+  * */
+  def getBytesFromRow(data: Row): Array[Byte] = {
+    // create a ObjectOutputStream backed by a ByteArrayOutputStream
+    val bytes = new ByteArrayOutputStream()
+    val out = new ObjectOutputStream(bytes)
+
+    // write the object to the output
+    out.writeObject(data)
+    out.flush()
+    out.close()
+    bytes.close()
+
+    // return the byte array
+    bytes.toByteArray()
+  }
+
+
   /**
     * Converts an array of bytes into a JavaArrayList of type [[Row]].
     *
@@ -94,10 +113,8 @@ object CS143Utils {
     if (byteArray == null || byteArray.size != nextChunkSize) {
       byteArray = new Array[Byte](nextChunkSize)
     }
-
     // Read the bytes in.
     inStream.read(byteArray)
-
     byteArray
   }
 
