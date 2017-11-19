@@ -267,7 +267,7 @@ object CachingIteratorGenerator {
           }
           var tmppreudf = preUdfProjection(tmp)
           var tmppostudf = postUdfProjection(tmp)
-          var row: Row = Row(tmppreudf, tmpudf, tmppostudf)
+          var row: Row = Row.fromSeq(tmppreudf ++ tmpudf ++ tmppostudf)
           row
         }
         else{

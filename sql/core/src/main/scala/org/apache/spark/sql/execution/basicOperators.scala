@@ -99,16 +99,39 @@ case class PartitionProject(projectList: Seq[Expression], child: SparkPlan) exte
     val keyGenerator = CS143Utils.getNewProjection(projectList, child.output)
 
     /* IMPLEMENT THIS METHOD */
-
+    val hashedRelation: DiskHashedRelation = DiskHashedRelation(input, keyGenerator)
+    var partitioniterator = hashedRelation.getIterator()
+    var dataiterator: Iterator[Row] = null
+    var currentpartition: DiskPartition = null
+    var cacheiterator:Iterator[Row] = null
+    var mycount:Int = 1
     new Iterator[Row] {
       def hasNext() = {
         /* IMPLEMENT THIS METHOD */
-        false
+        if (cacheiterator != null && cacheiterator.hasNext){
+          true
+        }
+        else{
+           var res:Boolean = fetchNextPartition()
+           if (res && cacheiterator.hasNext){
+             true
+           }
+           else{
+             // here means all the data has been processed, so we close the relation
+             hashedRelation.closeAllPartitions()
+             false
+           }
+        }
       }
 
       def next() = {
         /* IMPLEMENT THIS METHOD */
-        null
+        if (this.hasNext()){
+          cacheiterator.next()
+        }
+        else {
+         null
+        }
       }
 
       /**
@@ -119,6 +142,15 @@ case class PartitionProject(projectList: Seq[Expression], child: SparkPlan) exte
         */
       private def fetchNextPartition(): Boolean  = {
         /* IMPLEMENT THIS METHOD */
+        // Note for myself: use while here in case that there are some empty partitions between the partition that contain data
+        while (partitioniterator.hasNext){
+          currentpartition = partitioniterator.next()
+          dataiterator = currentpartition.getData()
+          if (dataiterator.hasNext) {
+            cacheiterator = CS143Utils.generateCachingIterator(projectList, output)(dataiterator)
+            return true
+          }
+        }
         false
       }
     }

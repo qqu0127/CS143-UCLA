@@ -53,3 +53,4 @@ class DiskHashedRelationSuite extends FunSuite {
     hashedRelation.closeAllPartitions()
   }
 }
+
